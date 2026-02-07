@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ติดตามสถานะคำร้อง</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <div class="card">
+        <div class="card-head">
+          <div style="display: flex; gap: 10px; align-items: center">
+            <div class="logo" style="width: 44px; height: 44px">
+              <img src="images\KhaminFondue.png" alt="โลโก้หน่วยงาน" />
+            </div>
+            <div>
+              <h3 style="margin: 0">ติดตามสถานะคำร้อง</h3>
+              <div class="muted">
+                กรอกเลขคำร้องเพื่อดูความคืบหน้า + รูปก่อน/หลัง
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; gap: 10px; flex-wrap: wrap">
+            <a class="btn small ghost" href="login.html">หน้าเลือกผู้ใช้งาน</a>
+            <a class="btn small ghost" href="index.html">ยื่นคำร้อง</a>
+          </div>
+        </div>
+
+        <div class="card-body">
+          <div class="track-grid">
+            <!-- SEARCH -->
+            <div class="card">
+              <div class="card-head">
+                <h3>ค้นหาเลขคำร้อง</h3>
+              </div>
+
+              <div class="card-body">
+                <form id="trackForm">
+                  <div class="field">
+                    <label for="trackCode">เลขคำร้อง</label>
+                    <input
+                      id="trackCode"
+                      type="text"
+                      placeholder="เช่น SKN-2026-000001"
+                      required
+                    />
+                  </div>
+
+                  <div class="footer-actions" style="justify-content: flex-start">
+                    <button class="btn primary" type="submit">ค้นหา</button>
+                    <button class="btn" type="button" id="btnClear">ล้าง</button>
+                  </div>
+                </form>
+
+                <div id="trackHint" class="muted" style="margin-top: 10px"></div>
+              </div>
+            </div>
+
+            <!-- RESULT -->
+            <div class="card">
+              <div class="card-head">
+                <h3>ผลการติดตาม</h3>
+              </div>
+
+              <div class="card-body">
+                <div id="resultEmpty" class="muted">
+                  ยังไม่ได้ค้นหา — กรุณากรอกเลขคำร้องแล้วกด “ค้นหา”
+                </div>
+
+                <div id="resultBox" class="result-box" style="display: none">
+                  <div class="result-top">
+                    <div>
+                      <div class="muted">เลขคำร้อง</div>
+                      <div class="result-code" id="resCode">-</div>
+                    </div>
+                    <div class="badge" id="resBadge">-</div>
+                  </div>
+
+                  <div class="result-meta">
+                    <div class="meta-item">
+                      <div class="muted">หมู่บ้าน</div>
+                      <div id="resVillage">-</div>
+                    </div>
+                    <div class="meta-item">
+                      <div class="muted">ประเภท</div>
+                      <div id="resTopic">-</div>
+                    </div>
+                    <div class="meta-item">
+                      <div class="muted">พิกัด</div>
+                      <div id="resCoords">-</div>
+                    </div>
+                  </div>
+
+                  <div class="preview" style="margin-top: 12px">
+                    <h3>Timeline</h3>
+                    <div class="timeline" id="timeline"></div>
+                  </div>
+
+                  <div class="preview">
+                    <h3>รูปก่อน-หลังการดำเนินงาน</h3>
+                    <div class="muted">คลิกรูปเพื่อดูขยาย</div>
+
+                    <div style="margin-top: 10px">
+                      <div
+                        class="muted"
+                        style="font-weight: 900; margin-bottom: 6px"
+                      >
+                        ก่อนดำเนินการ
+                      </div>
+                      <div id="beforeGallery" class="thumbs"></div>
+                    </div>
+
+                    <div style="margin-top: 12px">
+                      <div
+                        class="muted"
+                        style="font-weight: 900; margin-bottom: 6px"
+                      >
+                        หลังดำเนินการ
+                      </div>
+                      <div id="afterGallery" class="thumbs"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="muted" style="margin-top: 12px">
+            หากไม่พบเลขคำร้อง ให้ตรวจสอบตัวอักษร/ขีด/ตัวเลขให้ครบถ้วน
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="overlay" id="imgOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <strong id="imgTitle">ดูรูปภาพ</strong>
+          <button class="btn small" type="button" id="closeImgBtn">ปิด</button>
+        </div>
+        <div class="modal-body">
+          <div class="img-modal" style="grid-template-columns: 1fr">
+            <div class="img-preview">
+              <img id="imgBig" alt="รูป" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="track.js"></script>
+  </body>
+</html>
