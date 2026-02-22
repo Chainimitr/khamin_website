@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>จัดการผู้ใช้งานแอดมิน</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-wrap">
+            <img class="logo-img" src="images/KhaminFondue.png" alt="ตราสัญลักษณ์หน่วยงาน" />
+          </div>
+          <div class="brand-text">
+            <h1>จัดการผู้ใช้งานแอดมิน</h1>
+            <p>เพิ่ม / แก้ไขชื่อ / รีเซ็ตรหัส / ลบบัญชี</p>
+            <small class="hint" id="who">กำลังตรวจสอบสิทธิ์...</small>
+          </div>
+        </div>
+
+        <div class="theme-actions">
+          <a class="btn ghost" href="admin.html">กลับหน้า Admin</a>
+          <button id="logoutBtn" class="btn" type="button">ออกจากระบบ</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <section class="card">
+          <h2>เพิ่มแอดมิน</h2>
+          <div class="form">
+            <div class="grid two">
+              <div class="field">
+                <label for="newUsername">Username</label>
+                <input id="newUsername" type="text" placeholder="เช่น admin2" />
+                <small class="hint">ใช้ a-z A-Z 0-9 . _ - (3-30 ตัว)</small>
+              </div>
+              <div class="field">
+                <label for="newPassword">Password</label>
+                <input id="newPassword" type="password" placeholder="ตั้งรหัสผ่าน" />
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="newName">ชื่อที่แสดง (ไม่บังคับ)</label>
+              <input id="newName" type="text" placeholder="เช่น เจ้าหน้าที่ 2" />
+            </div>
+
+            <div class="actions">
+              <button id="createBtn" class="btn primary" type="button">เพิ่มผู้ใช้</button>
+              <button id="reloadBtn" class="btn ghost" type="button">รีเฟรชรายการ</button>
+            </div>
+
+            <small class="hint" id="createHint"></small>
+          </div>
+        </section>
+
+        <section class="card side">
+          <h2>รายการผู้ใช้แอดมิน</h2>
+          <div class="hint" id="listHint">กำลังโหลด...</div>
+
+          <div id="usersBox" class="preview" hidden>
+            <h3>คลิก “จัดการ” เพื่อแก้ไข/ลบ</h3>
+            <div id="usersList" style="display:grid; gap:10px;"></div>
+          </div>
+
+          <div class="preview" id="editBox" hidden>
+            <h3>จัดการผู้ใช้</h3>
+
+            <div class="field">
+              <label>Username</label>
+              <input id="editUsername" type="text" readonly />
+            </div>
+
+            <div class="field">
+              <label for="editName">ชื่อที่แสดง</label>
+              <input id="editName" type="text" placeholder="แก้ชื่อที่แสดง" />
+            </div>
+
+            <div class="field">
+              <label for="editPassword">รีเซ็ตรหัสผ่าน (ถ้าไม่เปลี่ยนให้เว้นว่าง)</label>
+              <input id="editPassword" type="password" placeholder="รหัสผ่านใหม่" />
+            </div>
+
+            <div class="actions">
+              <button id="saveBtn" class="btn primary" type="button">บันทึก</button>
+              <button id="deleteBtn" class="btn ghost" type="button">ลบผู้ใช้</button>
+              <button id="cancelBtn" class="btn" type="button">ยกเลิก</button>
+            </div>
+
+            <small class="hint" id="editHint"></small>
+          </div>
+
+          <small class="hint" style="margin-top:12px; display:block;">
+            * หน้านี้ให้สิทธิ์เฉพาะ super admin (username: SUPER_USERNAME ใน env)
+          </small>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>© ระบบรับคำร้องออนไลน์ (Admin Users)</span>
+      </footer>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin-users.js"></script>
+  </body>
+</html>

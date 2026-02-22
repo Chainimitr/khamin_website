@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ติดตามสถานะคำร้อง</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <div class="brand">
+          <div class="title">
+            <div class="logo">
+              <img src="images/KhaminFondue.png" alt="โลโก้หน่วยงาน" />
+            </div>
+            <div>
+              <h1 style="margin: 0">ติดตามสถานะคำร้อง</h1>
+              <div class="muted">กรอกเลขคำร้องเพื่อดูสถานะ/ไทม์ไลน์/รูปก่อน-หลัง</div>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px">
+            <a class="btn small ghost" href="index.html">ยื่นคำร้อง</a>
+            <a class="btn small ghost" href="login.html">สำหรับเจ้าหน้าที่</a>
+          </div>
+        </div>
+
+        <aside class="help-card">
+          <h2>คำแนะนำ</h2>
+          <ul>
+            <li>เลขคำร้องรูปแบบ: <b>SKN-YYYY-000001</b></li>
+            <li>ถ้าไม่พบข้อมูล ให้ตรวจเลขคำร้องให้ถูกต้อง</li>
+            <li>รูป “หลังดำเนินการ” จะแสดงเมื่อเจ้าหน้าที่อัปโหลด</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <!-- LEFT: Search -->
+        <div class="card">
+          <div class="card-head">
+            <h3>ค้นหาเลขคำร้อง</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="field">
+              <label for="codeInput">เลขคำร้อง</label>
+              <input
+                id="codeInput"
+                type="text"
+                placeholder="เช่น SKN-2026-000001"
+                autocomplete="off"
+              />
+              <small class="hint"
+                >ใส่เลขคำร้องแล้วกด “ค้นหา” หรือ Enter</small
+              >
+            </div>
+
+            <div class="actions">
+              <button id="searchBtn" class="btn primary" type="button">
+                ค้นหา
+              </button>
+              <button id="clearBtn" class="btn ghost" type="button">
+                ล้าง
+              </button>
+            </div>
+
+            <div id="searchHint" class="muted" style="margin-top: 10px"></div>
+
+            <div id="resultBox" class="result-box" style="margin-top: 14px; display:none">
+              <div class="result-top">
+                <div>
+                  <div class="muted">เลขคำร้อง</div>
+                  <div class="result-code" id="resCode">-</div>
+                  <div class="muted" style="margin-top: 4px">
+                    อัปเดตล่าสุด: <span id="resUpdated">-</span>
+                  </div>
+                </div>
+                <div class="badge info" id="resStatusBadge">-</div>
+              </div>
+
+              <div style="margin-top: 14px">
+                <div class="muted" style="font-weight:900; margin-bottom:6px">
+                  รายละเอียด
+                </div>
+                <div id="resDetail" style="white-space:pre-wrap">-</div>
+              </div>
+
+              <div style="margin-top: 14px">
+                <div class="muted" style="font-weight:900; margin-bottom:6px">
+                  ข้อมูลสถานที่
+                </div>
+                <div class="muted">
+                  หมู่บ้าน: <span id="resVillage">-</span><br />
+                  ประเภท: <span id="resTopic">-</span><br />
+                  พิกัด: <span id="resLatLng">-</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Timeline + Images -->
+        <div class="card">
+          <div class="card-head">
+            <h3>ไทม์ไลน์ / รูปก่อน-หลัง</h3>
+          </div>
+
+          <div class="card-body">
+            <div id="emptyHint" class="hint">
+              ยังไม่มีข้อมูล — ค้นหาเลขคำร้องก่อน
+            </div>
+
+            <div id="detailWrap" hidden>
+              <div class="preview">
+                <h3 style="margin-bottom:6px">Timeline</h3>
+                <div id="timelineUI" class="timeline"></div>
+              </div>
+
+              <div class="preview">
+                <h3>รูปก่อนดำเนินการ</h3>
+                <div class="muted">คลิกรูปเพื่อดูแบบขยาย</div>
+                <div id="beforeUI" class="thumbs" style="margin-top:10px"></div>
+              </div>
+
+              <div class="preview">
+                <h3>รูปหลังดำเนินการ</h3>
+                <div class="muted">คลิกรูปเพื่อดูแบบขยาย</div>
+                <div id="afterUI" class="thumbs" style="margin-top:10px"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="overlay" id="imgOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <strong id="imgTitle">ดูรูปภาพ</strong>
+          <button class="btn small" type="button" id="closeImgBtn">ปิด</button>
+        </div>
+        <div class="modal-body">
+          <div class="img-modal" style="grid-template-columns: 1fr">
+            <div class="img-preview">
+              <img id="imgBig" alt="รูป" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="track.js"></script>
+  </body>
+</html>

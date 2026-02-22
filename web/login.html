@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>KhaminFondue</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="auth-wrap">
+      <div class="auth-card">
+        <div class="auth-head">
+          <div class="auth-brand auth-center">
+            <div class="logo auth-logo">
+              <img src="images/KhaminFondue.png" alt="โลโก้หน่วยงาน" />
+            </div>
+
+            <div class="auth-title">
+              <h1>KhaminFondue</h1>
+              <div class="muted">• ประชาชนไม่ต้องล็อกอิน • เจ้าหน้าที่ต้องเข้าสู่ระบบ</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-body">
+          <div class="role-grid">
+            <button id="btnCitizen" class="role-card" type="button">
+              <div class="role-icon">👤</div>
+              <div class="role-text">
+                <div class="role-name">ประชาชน</div>
+                <div class="role-desc">ยื่นคำร้องและติดตามสถานะได้ทันที ไม่ต้องเข้าสู่ระบบ</div>
+              </div>
+              <div class="role-go">ยื่นคำร้อง →</div>
+            </button>
+
+            <button id="btnOfficer" class="role-card" type="button">
+              <div class="role-icon">🛡️</div>
+              <div class="role-text">
+                <div class="role-name">เจ้าหน้าที่</div>
+                <div class="role-desc">
+                  เข้าสู่หลังบ้านเพื่อดูรายการคำร้อง เปลี่ยนสถานะ และอัปโหลดรูปหลังดำเนินการ
+                </div>
+              </div>
+              <div class="role-go">เข้าสู่ระบบ →</div>
+            </button>
+          </div>
+
+          <div id="loginBox" class="login-box">
+            <div class="login-head">
+              <h2>เข้าสู่ระบบเจ้าหน้าที่</h2>
+              <button id="btnCloseLogin" class="btn small ghost" type="button">ปิด</button>
+            </div>
+
+            <div class="login-form">
+              <form id="loginForm">
+                <div class="row">
+                  <div class="field">
+                    <label for="username">ชื่อผู้ใช้</label>
+                    <input id="username" type="text" placeholder="กรอกชื่อผู้ใช้" required />
+                  </div>
+                  <div class="field">
+                    <label for="password">รหัสผ่าน</label>
+                    <input id="password" type="password" placeholder="กรอกรหัสผ่าน" required />
+                  </div>
+                </div>
+
+                <div class="footer-actions" style="justify-content: flex-start">
+                  <button class="btn primary" type="submit" id="btnLogin">เข้าสู่ระบบ</button>
+                  <!-- <a class="btn ghost" href="track.html">ไปหน้าติดตาม</a>
+                  <a class="btn ghost" href="index.html">ไปหน้ายื่นคำร้อง</a> -->
+                </div>
+
+                <div id="loginHint" class="muted" style="margin-top: 10px"></div>
+              </form>
+            </div>
+          </div>
+
+          <div id="alreadyBox" class="result-box" style="margin-top: 14px; display: none">
+            <div class="result-top">
+              <div>
+                <div class="muted">สถานะการเข้าสู่ระบบ</div>
+                <div class="result-code" id="who">-</div>
+              </div>
+              <div class="badge ok">พร้อมใช้งาน</div>
+            </div>
+
+            <div class="footer-actions" style="justify-content: flex-start; margin-top: 12px">
+              <a class="btn primary" href="admin.html">ไปหลังบ้าน (Admin)</a>
+              <button class="btn" type="button" id="btnLogout">ออกจากระบบ</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="footer" style="padding: 14px 16px; border-top: 1px solid rgba(122, 77, 22, 0.08)">
+          <span>© ระบบรับคำร้องออนไลน์</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="login.js"></script>
+  </body>
+</html>

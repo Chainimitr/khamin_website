@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>หลังบ้านเจ้าหน้าที่</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="page">
+      <header class="topbar">
+        <div class="brand">
+          <div class="logo-wrap">
+            <img
+              class="logo-img"
+              src="images/KhaminFondue.png"
+              alt="ตราสัญลักษณ์หน่วยงาน"
+            />
+          </div>
+
+          <div class="brand-text">
+            <h1>หลังบ้านเจ้าหน้าที่ (Admin)</h1>
+            <p>ค้นหา/ดูรายละเอียด/เปลี่ยนสถานะคำร้อง พร้อมรูปก่อน-หลัง</p>
+            <small class="hint" id="who">กำลังตรวจสอบสิทธิ์...</small>
+          </div>
+        </div>
+
+        <div class="theme-actions">
+          <a class="btn ghost" href="admin-users.html">จัดการแอดมิน</a>
+          <a class="btn ghost" href="index.html">ยื่นคำร้อง</a>
+          <a class="btn ghost" href="track.html">ติดตาม</a>
+          <button id="logoutBtn" class="btn" type="button">ออกจากระบบ</button>
+        </div>
+      </header>
+
+      <main class="content">
+        <!-- LEFT -->
+        <section class="card">
+          <div class="card-head">
+            <h2>ค้นหา</h2>
+          </div>
+
+          <div class="card-body">
+            <div class="form">
+              <div class="grid two">
+                <div class="field">
+                  <label for="q">(เลขคำร้อง/หมู่บ้าน/ประเภท/รายละเอียด)</label>
+                  <input
+                    id="q"
+                    type="text"
+                    placeholder="เช่น SKN-2026-000001 หรือ ถนนชำรุด"
+                  />
+                  <small class="hint">พิมพ์เพื่อกรองแบบทันที</small>
+                </div>
+
+                <div class="field">
+                  <label for="statusFilter">กรองสถานะ</label>
+                  <select id="statusFilter">
+                    <option value="">ทั้งหมด</option>
+                    <option>รับเรื่องแล้ว</option>
+                    <option>ตรวจสอบข้อมูล</option>
+                    <option>มอบหมายงาน</option>
+                    <option>ลงพื้นที่</option>
+                    <option>กำลังดำเนินการ</option>
+                    <option>เสร็จสิ้น</option>
+                    <option>ยกเลิก/ไม่รับเรื่อง</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid two">
+                <div class="field">
+                  <label>&nbsp;</label>
+                  <button id="searchBtn" class="btn primary" type="button">
+                    โหลดรายการ
+                  </button>
+                </div>
+                <div class="field">
+                  <label>&nbsp;</label>
+                  <small class="hint" id="listHint">กด “โหลดรายการ” เพื่อเริ่ม</small>
+                </div>
+              </div>
+            </div>
+
+            <div id="list" class="preview" hidden>
+              <h3>รายการคำร้อง (คลิกเพื่อดูรายละเอียด)</h3>
+              <div id="items"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- RIGHT -->
+        <section class="card side">
+          <div class="card-head">
+            <h2>รายละเอียดคำร้อง</h2>
+          </div>
+
+          <div class="card-body">
+            <div id="detailHint" class="hint">ยังไม่ได้เลือกคำร้อง</div>
+
+            <div id="detailBox" hidden>
+              <div id="detailUI" class="detail-ui"></div>
+
+              <div class="preview">
+                <h3>รูปก่อนดำเนินการ (ผู้ร้องแนบ)</h3>
+                <div class="muted">คลิกรูปเพื่อดูแบบขยาย</div>
+                <div id="beforeUI" class="thumbs" style="margin-top: 10px"></div>
+              </div>
+
+              <div class="preview">
+                <h3>รูปหลังดำเนินการ</h3>
+                <div class="muted">
+                  รูปที่ “บันทึกแล้ว” จะโชว์ด้านล่าง และไปแสดงในหน้า Track
+                </div>
+
+                <div class="field" style="margin-top: 10px">
+                  <label for="afterImages">เลือกไฟล์รูป (หลายรูปได้)</label>
+                  <input id="afterImages" type="file" accept="image/*" multiple />
+                  <small class="hint"
+                    >แนะนำรูปขนาดไม่ใหญ่เกินไป (เพื่อให้บันทึกไว)</small
+                  >
+                </div>
+
+                <div class="row" style="grid-template-columns: 1fr; gap: 10px">
+                  <div>
+                    <div class="muted" style="font-weight: 900; margin-bottom: 6px">
+                      พรีวิวรูปที่เลือก (ยังไม่บันทึก)
+                    </div>
+                    <div class="thumbs" id="afterPreview"></div>
+                  </div>
+
+                  <div style="margin-top: 10px">
+                    <div class="muted" style="font-weight: 900; margin-bottom: 6px">
+                      รูปหลังที่บันทึกแล้ว
+                    </div>
+                    <div class="thumbs" id="afterSavedUI"></div>
+                  </div>
+                </div>
+
+                <div class="actions" style="margin-top: 10px">
+                  <button id="saveAfterBtn" class="btn primary" type="button">
+                    บันทึกรูปหลังดำเนินการ
+                  </button>
+                  <button id="clearAfterBtn" class="btn ghost" type="button">
+                    ล้างรูปที่เลือก
+                  </button>
+                </div>
+
+                <small class="hint">
+                  *แนะนำให้บันทึกรูปหลังเมื่อสถานะเป็น “เสร็จสิ้น”
+                </small>
+              </div>
+
+              <div class="preview">
+                <h3>Timeline / เปลี่ยนสถานะ</h3>
+                <div id="timelineUI" class="timeline"></div>
+
+                <div class="form" style="margin-top: 12px">
+                  <div class="field">
+                    <label for="newStatus">สถานะใหม่</label>
+                    <select id="newStatus">
+                      <option>รับเรื่องแล้ว</option>
+                      <option>ตรวจสอบข้อมูล</option>
+                      <option>มอบหมายงาน</option>
+                      <option>ลงพื้นที่</option>
+                      <option>กำลังดำเนินการ</option>
+                      <option>เสร็จสิ้น</option>
+                      <option>ยกเลิก/ไม่รับเรื่อง</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="note">หมายเหตุ</label>
+                    <textarea
+                      id="note"
+                      rows="3"
+                      placeholder="เช่น ลงพื้นที่แล้ว / ซ่อมเรียบร้อย"
+                    ></textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="officer">ชื่อเจ้าหน้าที่</label>
+                    <input
+                      id="officer"
+                      type="text"
+                      placeholder="เช่น จนท. อบต. ..."
+                    />
+                  </div>
+
+                  <div class="actions">
+                    <button id="updateBtn" class="btn primary" type="button">
+                      บันทึกสถานะ
+                    </button>
+                    <button id="deleteBtn" class="btn ghost" type="button">
+                      ลบคำร้อง
+                    </button>
+                  </div>
+
+                  <small class="hint">
+                    *เมื่อ “เสร็จสิ้น” แนะนำให้อัปโหลด “รูปหลังดำเนินการ” ด้วย
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer class="footer">
+        <span>© ระบบรับคำร้องออนไลน์ (Admin)</span>
+      </footer>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="overlay" id="imgOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <strong id="imgTitle">ดูรูปภาพ</strong>
+          <button class="btn small" type="button" id="closeImgBtn">ปิด</button>
+        </div>
+        <div class="modal-body">
+          <div class="img-modal" style="grid-template-columns: 1fr">
+            <div class="img-preview">
+              <img id="imgBig" alt="รูป" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="admin.js"></script>
+  </body>
+</html>

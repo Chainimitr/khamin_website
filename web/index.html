@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="th">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ระบบรับยื่นคำร้องออนไลน์</title>
+    <link rel="stylesheet" href="style.css" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+      defer
+    ></script>
+  </head>
+
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <div class="brand">
+          <div class="title">
+            <div class="logo">
+              <img src="images/KhaminFondue.png" alt="โลโก้หน่วยงาน" />
+            </div>
+            <div>
+              <h1 style="margin: 0">ระบบรับยื่นคำร้องออนไลน์</h1>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px">
+            <a class="btn small ghost" href="track.html">ติดตามสถานะ</a>
+            <a class="btn small ghost" href="login.html">สำหรับเจ้าหน้าที่</a>
+          </div>
+        </div>
+
+        <aside class="help-card">
+          <h2>วิธีใช้งาน</h2>
+          <ul>
+            <li>เลือกหมู่บ้าน</li>
+            <li>กรอกรายละเอียด + แนบรูปก่อนดำเนินการ</li>
+            <li>คลิกบนแผนที่เพื่อปักหมุดพิกัด</li>
+            <li>ส่งคำร้อง และจดเลขคำร้องไว้</li>
+          </ul>
+        </aside>
+      </section>
+
+      <section class="grid">
+        <div class="card">
+          <div class="card-head">
+            <h3>ข้อมูลคำร้อง</h3>
+            <button class="btn small ghost" id="btnPickVillage" type="button">
+              เลือกหมู่บ้าน
+            </button>
+          </div>
+
+          <div class="card-body">
+            <form id="petitionForm">
+              <div class="row">
+                <div class="field">
+                  <label for="village">หมู่บ้าน</label>
+                  <input
+                    id="village"
+                    type="text"
+                    placeholder="กดปุ่ม ‘เลือกหมู่บ้าน’"
+                    readonly
+                    required
+                  />
+                </div>
+                <div class="field">
+                  <label for="topic">หัวข้อ/ประเภทปัญหา</label>
+                  <input
+                    id="topic"
+                    type="text"
+                    placeholder="เช่น ถนนชำรุด / น้ำประปา / ไฟส่องสว่าง"
+                    required
+                  />
+                </div>
+              </div>
+
+              <div class="field">
+                <label for="detail">รายละเอียดคำร้อง</label>
+                <textarea
+                  id="detail"
+                  placeholder="อธิบายปัญหาโดยละเอียด"
+                  required
+                ></textarea>
+                <div class="muted">แนะนำให้ระบุ จุด/เวลา/ผลกระทบ/ความเร่งด่วน</div>
+              </div>
+
+              <div class="field">
+                <label>แนบรูปก่อนดำเนินการ (หลายรูปได้) + พรีวิว</label>
+                <div class="drop">
+                  <div class="row align-center">
+                    <input id="imagesBefore" type="file" accept="image/*" multiple />
+                    <button class="btn small" type="button" id="btnClearImages">
+                      ล้างรูปทั้งหมด
+                    </button>
+                  </div>
+                  <div class="muted">คลิกรูปเพื่อดูแบบขยาย</div>
+                  <div class="thumbs" id="thumbs"></div>
+                </div>
+              </div>
+
+              <div class="footer-actions">
+                <button class="btn" type="reset" id="btnReset">ล้างฟอร์ม</button>
+                <button class="btn primary" type="submit">ส่งคำร้อง</button>
+              </div>
+
+              <div id="submitHint" class="muted" style="margin-top: 10px"></div>
+            </form>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <h3>ปักหมุดแผนที่</h3>
+            <button class="btn small ghost" type="button" id="btnUseMyLocation">
+              ใช้ตำแหน่งฉัน
+            </button>
+          </div>
+
+          <div class="card-body">
+            <div id="map"></div>
+
+            <div class="coords">
+              <div class="field">
+                <label for="lat">Latitude</label>
+                <input id="lat" type="text" placeholder="คลิกบนแผนที่" readonly />
+              </div>
+              <div class="field">
+                <label for="lng">Longitude</label>
+                <input id="lng" type="text" placeholder="คลิกบนแผนที่" readonly />
+              </div>
+            </div>
+
+            <p class="muted">คลิกเพื่อวางหมุด / ลากหมุดเพื่อปรับตำแหน่ง</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div class="overlay" id="villageOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <strong>เลือกหมู่บ้าน</strong>
+          <button class="btn small" type="button" data-close="villageOverlay">ปิด</button>
+        </div>
+        <div class="modal-body">
+          <div class="village-grid" id="villageGrid"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="overlay" id="imgOverlay">
+      <div class="modal">
+        <div class="modal-head">
+          <strong id="imgTitle">ดูรูปภาพ</strong>
+          <button class="btn small" type="button" data-close="imgOverlay">ปิด</button>
+        </div>
+        <div class="modal-body">
+          <div class="img-modal" style="grid-template-columns: 1fr">
+            <div class="img-preview">
+              <img id="imgBig" alt="ภาพแนบคำร้อง" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="index.js"></script>
+    <script>
+      if (sessionStorage.getItem("role") !== "citizen") {
+        location.replace("login.html");
+      }
+    </script>
+  </body>
+</html>
