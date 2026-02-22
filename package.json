@@ -1,9 +1,0 @@
-{
-  "name": "khamin-petitions",
-  "private": true,
-  "type": "commonjs",
-  "dependencies": {
-    "express": "^4.19.2",
-    "cookie-signature": "^1.2.1"
-  }
-}
