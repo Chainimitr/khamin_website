@@ -4,6 +4,30 @@
    + Remove underlines
    ========================= */
 
+:root{
+  --container: 1120px;
+  --pad: clamp(12px, 3vw, 20px);
+  --gap: clamp(10px, 2.6vw, 16px);
+  --radius: 18px;
+
+  --h1: clamp(18px, 3.6vw, 24px);
+  --h2: clamp(16px, 3.2vw, 20px);
+  --text: clamp(13px, 2.8vw, 15px);
+  --muted: clamp(12px, 2.6vw, 13px);
+}
+
+body{ font-size: var(--text); }
+.muted{ font-size: var(--muted); }
+h1{ font-size: var(--h1); }
+h2,h3{ font-size: var(--h2); }
+
+.wrap{
+  max-width: var(--container);
+  margin: 18px auto;
+  padding: 0 var(--pad);
+}
+
+
 /* ---------- reset ---------- */
 * { box-sizing: border-box; }
 html, body { height: 100%; }
@@ -856,3 +880,60 @@ input::placeholder, textarea::placeholder{ color: rgba(43,36,26,0.35); }
 
 /* ---------- utility ---------- */
 .align-center{ align-items:center; }
+
+/* ===== Mobile first overrides ===== */
+@media (max-width: 980px){
+  .hero{ grid-template-columns: 1fr; }
+  .grid{ grid-template-columns: 1fr; }
+  .content{ grid-template-columns: 1fr; }
+}
+
+@media (max-width: 700px){
+  .row{ grid-template-columns: 1fr !important; }
+  .grid.two{ grid-template-columns: 1fr !important; }
+
+  .card-head{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .theme-actions{
+    width: 100%;
+    justify-content: flex-start;
+    gap: 8px;
+  }
+
+  /* ปุ่มเต็มบรรทัดกดง่าย */
+  .btn{
+    padding: 12px 14px;
+  }
+  .btn.small{
+    padding: 10px 12px;
+  }
+}
+
+@media (max-width: 520px){
+  /* thumbs 2 ช่อง */
+  .thumbs{ grid-template-columns: repeat(2, 1fr) !important; }
+
+  /* map ไม่สูงเกิน */
+  #map{ height: 320px !important; }
+
+  /* modal ไม่แน่น */
+  .modal{ border-radius: 18px; }
+  .modal-body{ padding: 12px; }
+}
+
+@media (max-width: 520px){
+  input, textarea, select{
+    font-size: 16px;
+  }
+}
+
+.btn, .choice{
+  min-height: 44px; /* Apple guideline */
+}
+
+html, body{ overflow-x: hidden; }
+img{ max-width: 100%; height: auto; }
